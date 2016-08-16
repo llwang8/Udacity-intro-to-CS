@@ -233,3 +233,54 @@ jungle_animal('cheetah', 30)
 
 jungle_animal('gorilla', 21)
 #>>> "Introduce yourself!"
+
+
+# Define a procedure, find_element,
+# using index that takes as its
+# inputs a list and a value of any
+# type, and returns the index of
+# the first element in the input
+# list that matches the value.
+
+# If there is no matching element,
+# return -1.
+def find_element1(list, val):
+    i = 0
+    while i < len(list):
+        if list[i] == val:
+            return i
+        i = i + 1
+    return -1
+
+def find_element2(list, val):
+    i = 0
+    for e in list;
+        if e == val:
+            return i
+        i = i + 1
+    return -1
+
+def find_element3(list, val):
+    if val in list:
+        return list.index(val)
+    else:
+        return -1
+
+def find_element4(list, val):
+    if val not in list:
+        return -1
+    return list.index(val)
+
+def find_element5(list, val):
+    try:
+        return list.index(val)
+    except ValueError:
+        return -1
+
+
+print find_element([1,2,3],3)
+#>>> 2
+
+print find_element(['alpha','beta'],'gamma')
+#>>> -1
+
