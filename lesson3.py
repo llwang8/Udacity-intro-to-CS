@@ -269,11 +269,11 @@ print repr(string), numbers_in_lists(string) == result
 # divided by the total number of characters in the message, n.
 
 def freq_analysis(message):
-    alphabet_list = ['a','b','c','d','e','f','g','h','i','h','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
+    alphabet_list = ['a','b','c','d','e','f','g','h','i','j','k','l','m','n','o','p','q','r','s','t','u','v','w','x','y','z']
     freq_list = []
     total_num_chars = len(message)
     i = 0
-    while i < 24:
+    while i < 26:
         freq_list.append(0)
         i = i + 1
 
@@ -282,13 +282,15 @@ def freq_analysis(message):
         index = alphabet_list.index(message[i])
         freq_list[index] = freq_list[index] + 1
         i = i + 1
+    #print freq_list
 
     i = 0
-    while i < 24:
+    while i < 26:
         freq_list[i] = freq_list[i] / float(total_num_chars)
         i = i + 1
 
     return freq_list
+
 
 
 
