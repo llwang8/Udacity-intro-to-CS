@@ -94,7 +94,7 @@ Freda likes to play Starfleet Commander, Ninja Hamsters, Seahorse Adventures."
 #   The newly created network data structure
 def create_data_structure(string_input):
     profiles = []
-    network = []
+    network = {}
     person = {}
 
     if string_input:
@@ -102,7 +102,7 @@ def create_data_structure(string_input):
         #print profiles
         i = 0
         while i < len(profiles) - 1:
-            network.append(get_person(profiles[i], profiles[i+1]))
+            network.update(get_person(profiles[i], profiles[i+1]))
             i = i + 2
     return network
 
@@ -145,7 +145,8 @@ def get_person(str1, str2):
 #   - If the user has no connections, return an empty list.
 #   - If the user is not in network, return None.
 def get_connections(network, user):
-    return []
+    person = network[user]
+    return person['connected_to']
 
 # -----------------------------------------------------------------------------
 # get_games_liked(network, user):
@@ -160,7 +161,8 @@ def get_connections(network, user):
 #   - If the user likes no games, return an empty list.
 #   - If the user is not in network, return None.
 def get_games_liked(network,user):
-    return []
+    person = network[user]
+    return person['games']
 
 # -----------------------------------------------------------------------------
 # add_connection(network, user_A, user_B):
@@ -177,8 +179,15 @@ def get_games_liked(network,user):
 #   - If a connection already exists from user_A to user_B, return network unchanged.
 #   - If user_A or user_B is not in network, return False.
 def add_connection(network, user_A, user_B):
+    if user_A in network and user_B in network:
+        person = network[user_A]
+        person['connected_to'].append(user_B)
     return network
 
+def add_games(network, user, games_list):
+    if user in network:
+        person = network[user]
+        person['games'] + games_list
 # -----------------------------------------------------------------------------
 # add_new_user(network, user, games):
 #   Creates a new user profile and adds that user to the network, along with
@@ -197,6 +206,8 @@ def add_connection(network, user_A, user_B):
 #   - If the user already exists in network, return network *UNCHANGED* (do not change
 #     the user's game preferences)
 def add_new_user(network, user, games):
+    network[user] = {}
+    network[user]['games'] = games
     return network
 
 # -----------------------------------------------------------------------------
