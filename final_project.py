@@ -113,12 +113,12 @@ def get_person(str1, str2):
 
     index = str1.index('is')
     if index > 0:
-        name = str1[0:index-1]
+        name = str1[0:index-1].strip()
         index = str1.index('connected to')
-        connected_to = str1[index + 12:].split(',')
+        connected_to = str1[index + 13:].split(', ')
 
     index = str2.index('play')
-    games = str2[index + 4:].split(',')
+    games = str2[index + 5:].split(', ')
 
     person[name] = {}
     person[name]['connected_to'] = connected_to
@@ -229,7 +229,19 @@ def add_new_user(network, user, games):
 #   himself/herself. It is also OK if the list contains a user's primary
 #   connection that is a secondary connection as well.
 def get_secondary_connections(network, user):
-    return []
+    if user not in network:
+        return None
+    else:
+        person = network[user]
+        first_connections = person['connected_to']
+        second_connections = []
+        for p in first_connections:
+            print p
+            if p in network:
+                print network[p]['connected_to']
+                second_connections = second_connections + network[p]['connected_to']
+
+    return second_connections
 
 # -----------------------------------------------------------------------------
 # count_common_connections(network, user_A, user_B):
