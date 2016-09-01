@@ -188,11 +188,15 @@ def get_games_liked(network,user):
 #   - If user_A or user_B is not in network, return False.
 def add_connection(network, user_A, user_B):
     if user_A in network and user_B in network:
-        person = network[user_A] :
+        person = network[user_A]
+        print 'person'
+        print person
         if person['connected_to']:
             person['connected_to'].append(user_B)
         else:
             person['connected_to'] = [user_B]
+        print "with key"
+        print person['connected_to']
 
         return network
     else:
