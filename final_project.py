@@ -149,9 +149,11 @@ def get_person(str1, str2):
 def get_connections(network, user):
     if user in network:
         person = network[user]
-        return person['connected_to']
-    else:
-        return None
+        #print person
+        if 'connected_to' in person:
+            return person['connected_to']
+
+    return None
 
 # -----------------------------------------------------------------------------
 # get_games_liked(network, user):
@@ -189,14 +191,11 @@ def get_games_liked(network,user):
 def add_connection(network, user_A, user_B):
     if user_A in network and user_B in network:
         person = network[user_A]
-        print 'person'
-        print person
-        if person['connected_to']:
-            person['connected_to'].append(user_B)
+        if 'connected_to' in person:
+            if user_B not in person['connected_to']:
+                person['connected_to'].append(user_B)
         else:
             person['connected_to'] = [user_B]
-        print "with key"
-        print person['connected_to']
 
         return network
     else:
@@ -222,12 +221,13 @@ def add_connection(network, user_A, user_B):
 #   - If the user already exists in network, return network *UNCHANGED* (do not change
 #     the user's game preferences)
 def add_new_user(network, user, games):
-    network[user] = {}
-
-    if games:
-        network[user]['games'] = games
-    else:
-        network[user]['games'] = []
+    if user not in network:
+        network[user] = {}
+        if games:
+            network[user]['games'] = games
+        else:
+            network[user]['games'] = []
+        network[user]['connected_to'] = []
     return network
 
 # -----------------------------------------------------------------------------
@@ -278,15 +278,15 @@ def get_secondary_connections(network, user):
 #   - If user_A or user_B is not in network, return False.
 def count_common_connections(network, user_A, user_B):
     if user_A in network and user_B in network:
-        connections_A = network[user_A]
-        connections_B = network[user_B]
+        connections_A = network[user_A]['connected_to']
+        connections_B = network[user_B]['connected_to']
         common_connections = []
         for p in connections_A:
             if p in connections_B:
                 common_connections.append(p)
         return len(common_connections)
     else:
-        return 0;
+        return False;
 
 
 # -----------------------------------------------------------------------------
