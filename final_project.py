@@ -321,26 +321,23 @@ def count_common_connections(network, user_A, user_B):
 #   in this procedure to keep track of nodes already visited in your search. You
 #   may safely add default parameters since all calls used in the grading script
 #   will only include the arguments network, user_A, and user_B.
-def find_path_to_friend(network, user_A, user_B, nodes_visited=[]):
+def find_path_to_friend(network, user_A, user_B, path=None):
     if user_A not in network or user_B not in network:
         return None
-    path = [user_A]
+    if path is None:
+        path = []
+    path = path + [user_A]
+    #print path
+    if user_A == user_B:
+        return path
     connections_A = network[user_A]['connected_to']
-    for p in connections_A:
-        nodes_visited.append(p)
-        if p != user_B:
-            if p in nodes_visited:
-                return None
-            else:
-                path.append(p)
-                next_path = find_path_to_friend(network, p, user_B, nodes_visited=[])
-                if next_path == None:
-                    return None
-                else:
-                    path = path + next_path
-        else:
-            path = path + [p]
-            return path
+    if connections_A:
+        for p in connections_A:
+            if p not in path:
+                next_path = find_path_to_friend(network, p, user_B, path)
+                #print next_path
+                if next_path:
+                    return next_path
     return None
 
 
@@ -354,10 +351,34 @@ def find_path_to_friend(network, user_A, user_B, nodes_visited=[]):
 # Replace this with your own procedure! You can also uncomment the lines below
 # to see how your code behaves. Have fun!
 
-def add_games(network, user, games_list):
+def create_games_structure(network):
+    games = {}
+    for p in network:
+        for g in network[p]['games']:
+            if g not in games:
+                games[g] = {}
+                games[g]['players'] = [p]
+            else:
+                if p not in games[g]['players']:
+                    games[g]['players'].append[p]
+    return games
+
+def add_games_to_network(network, user, games_list):
     if user in network:
         person = network[user]
-        person['games'] + games_list
+        if games_list:
+            person['games'] = person['games'] + games_list
+
+    return False
+
+def add_games_to_games_struc(games, user, games_list):
+    return games_struc
+
+def rank_games_by_plays(games):
+    return ranks
+
+def common_games(games, user_A, user_B):
+    return []
 
 
 #net = create_data_structure(example_input)
